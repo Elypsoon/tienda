@@ -1,4 +1,30 @@
 CREATE DATABASE Proyecto
+ON PRIMARY (
+			NAME = 'Proyecto',
+			FILENAME = 'D:\Bases de datos\ProyectoBD\Proyecto.mdf',
+			SIZE = 5MB,
+			FILEGROWTH = 2MB
+			),
+			FILEGROUP Secundario
+			(
+			NAME = 'Proyecto2',
+			FILENAME = 'D:\Bases de datos\ProyectoBD\Proyecto2.ndf',
+			SIZE = 5MB,
+			FILEGROWTH = 2MB
+			)
+LOG ON
+			(
+			NAME = 'Proyecto_log',
+			FILENAME = 'D:\Bases de datos\ProyectoBD\Proyecto_log.ldf',
+			SIZE = 2MB,
+			FILEGROWTH = 10%
+			),
+			(
+			NAME = 'Proyecto_log2',
+			FILENAME = 'D:\Bases de datos\ProyectoBD\Proyecto_log2.ldf',
+			SIZE = 2MB,
+			FILEGROWTH = 10%,
+			)
 GO
 USE Proyecto
 
