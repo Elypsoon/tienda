@@ -77,6 +77,24 @@ CREATE TABLE Ventas (
   CONSTRAINT FK_ID_producto_ventas FOREIGN KEY (id_producto) REFERENCES Productos(id_producto)
 )
 
+--Tabla para el control de eliminaciones de ventas
+CREATE TABLE VentasAud (
+  id_venta INT NOT NULL,
+  total DECIMAL(10, 2),
+  id_cliente INT,
+  id_producto INT,
+  fecha DATE
+)
+
+--Tabla para el control de eliminaciones de compras
+CREATE TABLE ComprasAud (
+  id_compra INT NOT NULL,
+  total DECIMAL(10, 2),
+  id_producto INT,
+  id_proveedor INT,
+  fecha DATE
+)
+
 --Índices.
 
 CREATE INDEX nom_cli ON Clientes(nombre)

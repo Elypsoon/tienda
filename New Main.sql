@@ -8,6 +8,13 @@ SELECT * FROM Proveedores
 SELECT * FROM Compras
 SELECT * FROM Ventas
 
-DELETE FROM Ventas WHERE id_venta = 1
+--Prueba de triggers
+DELETE FROM Ventas WHERE id_venta = 3
+SELECT * FROM VentasAud
 
-SELECT FROM VentasAud
+DELETE FROM Compras WHERE id_compra = 1
+SELECT * FROM ComprasAud
+
+INSERT INTO Correos VALUES ('alex.gomezexample.com')
+
+INSERT INTO Correos VALUES ('alex.gomez@example.com')
