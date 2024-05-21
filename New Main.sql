@@ -12,36 +12,54 @@ EXEC BusquedaAvanzada 'Compras', 'total', '>', '0'
 
 EXECUTE AS USER = 'Usuario1'
 
+/*
+SELECT * FROM Proveedores
+INSERT INTO Clientes VALUES ('Maria', 'Lopez', 'Ruiz', 2, 2)
+*/
+
 SELECT * 
 FROM fn_my_permissions('dbo.Clientes', 'OBJECT') 
-WHERE permission_name IN ('SELECT')
+
 SELECT * 
-FROM fn_my_permissions('dbo.Ventas', 'OBJECT') 
-WHERE permission_name IN ('SELECT')
+FROM fn_my_permissions(NULL, 'DATABASE')
+
 
 REVERT
 
+
 EXECUTE AS USER = 'Admin1'
 
+/*
+SELECT * FROM Clientes
+INSERT INTO Productos VALUES ('Laptop', 'Laptop gama media', 400, 10)
+*/
 SELECT * 
 FROM fn_my_permissions('dbo.Clientes', 'OBJECT')
-WHERE permission_name IN ('INSERT', 'UPDATE')
 
 SELECT * 
 FROM fn_my_permissions(NULL, 'DATABASE') 
-WHERE permission_name IN ('CREATE TABLE', 'ALTER')
 
 REVERT
 
 EXECUTE AS USER = 'Sup1'
 
+/*
+SELECT * FROM Direcciones
+INSERT INTO Productos VALUES ('Lámpara', 'Lámpara mediana de mano', 10, 20)
+DELETE FROM Productos WHERE id_producto=13
+*/
+
+/*
+CREATE TABLE sup.prueba(id int)
+ALTER TABLE sup.prueba ADD nombre NVARCHAR(255)
+DROP TABLE sup.prueba
+*/
+
 SELECT * 
 FROM fn_my_permissions('dbo.Clientes', 'OBJECT') 
-WHERE permission_name IN ('INSERT', 'UPDATE')
 
 SELECT * 
 FROM fn_my_permissions(NULL, 'DATABASE') 
-WHERE permission_name IN ('CREATE TABLE', 'ALTER')
 
 REVERT
 
@@ -66,33 +84,33 @@ EXEC msdb.dbo.sp_send_dbmail
 
 
 --Manejo de tablas temporales.
-CREATE TABLE ##TotalVentasPorProducto (
+CREATE TABLE ##TotalVentasProducto (
     id_producto INT,
     total_ventas DECIMAL(10, 2)
 )
 
-INSERT INTO ##TotalVentasPorProducto
+INSERT INTO ##TotalVentasProducto
 SELECT id_producto, SUM(total) total_ventas
 FROM Ventas
 WHERE fecha BETWEEN '2023-01-01' AND '2023-12-31'
 GROUP BY id_producto
 
-SELECT * FROM ##TotalVentasPorProducto
+SELECT * FROM ##TotalVentasProducto
 
 
-CREATE TABLE ##ReporteVentasPorCliente (
+CREATE TABLE ##ReporteVentasCliente (
     id_cliente INT,
     nombre NVARCHAR(255),
     apellido_paterno NVARCHAR(255),
     total_ventas DECIMAL(10, 2)
 )
 
-INSERT INTO ##ReporteVentasPorCliente
+INSERT INTO ##ReporteVentasCliente
 SELECT c.id_cliente, c.nombre, c.apellido_paterno, SUM(v.total) AS total_ventas
 FROM Clientes c
 JOIN Ventas v ON c.id_cliente = v.id_cliente
 WHERE v.fecha BETWEEN '2023-01-01' AND '2023-12-31'
 GROUP BY c.id_cliente, c.nombre, c.apellido_paterno
 
-SELECT * FROM ##ReporteVentasPorCliente
+SELECT * FROM ##ReporteVentasCliente
 

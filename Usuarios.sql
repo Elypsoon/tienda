@@ -35,14 +35,15 @@ GO
 GRANT SELECT ON SCHEMA::ad TO Admin1
 GO
 
-GRANT INSERT, UPDATE ON Clientes TO Admin1
-GRANT INSERT, UPDATE ON Proveedores TO Admin1
-GRANT INSERT, UPDATE ON Productos TO Admin1
-GRANT INSERT, UPDATE ON Compras TO Admin1
-GRANT INSERT, UPDATE ON Ventas TO Admin1
+GRANT SELECT, INSERT, UPDATE ON Clientes TO Admin1
+GRANT SELECT, INSERT, UPDATE ON Direcciones TO Admin1
+GRANT SELECT, INSERT, UPDATE ON Proveedores TO Admin1
+GRANT SELECT, INSERT, UPDATE ON Productos TO Admin1
+GRANT SELECT, INSERT, UPDATE ON Compras TO Admin1
+GRANT SELECT, INSERT, UPDATE ON Ventas TO Admin1
 GO
 
---Supervisor que puede insertar y modificar datos, además de crear  nuevas tablas.
+--Supervisor que puede modificar la base de datos
 
 CREATE LOGIN sup1 WITH PASSWORD = 'omega123', DEFAULT_DATABASE = Proyecto
 GO
@@ -57,12 +58,13 @@ GO
 --Le agregamos permisos al esquema
 GRANT INSERT, UPDATE, DELETE ON SCHEMA::sup TO Sup1 
 
-GRANT INSERT, UPDATE, DELETE ON Clientes TO Sup1
-GRANT INSERT, UPDATE, DELETE ON Proveedores TO Sup1
-GRANT INSERT, UPDATE, DELETE ON Productos TO Sup1
-GRANT INSERT, UPDATE, DELETE ON Compras TO Sup1
-GRANT INSERT, UPDATE, DELETE ON Ventas TO Sup1
+GRANT SELECT, INSERT, UPDATE, DELETE ON Clientes TO Sup1
+GRANT SELECT, INSERT, UPDATE, DELETE ON Direcciones TO Sup1
+GRANT SELECT, INSERT, UPDATE, DELETE ON Proveedores TO Sup1
+GRANT SELECT, INSERT, UPDATE, DELETE ON Productos TO Sup1
+GRANT SELECT, INSERT, UPDATE, DELETE ON Compras TO Sup1
+GRANT SELECT, INSERT, UPDATE, DELETE ON Ventas TO Sup1
 
---Damos permisos de creación y modificación de tablas de tablas
+--Damos permisos de creación y modificación de tablas
 GRANT CREATE TABLE TO Sup1
 GRANT ALTER ON DATABASE::Proyecto TO Sup1
