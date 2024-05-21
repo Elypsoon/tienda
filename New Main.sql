@@ -63,3 +63,36 @@ EXEC msdb.dbo.sp_send_dbmail
     @recipients = 'angel.gtz.pc.527@gmail.com',
     @body = 'El perfil de correo funciona correctamente.',
     @subject = 'Prueba'
+
+
+--Manejo de tablas temporales.
+CREATE TABLE ##TotalVentasPorProducto (
+    id_producto INT,
+    total_ventas DECIMAL(10, 2)
+)
+
+INSERT INTO ##TotalVentasPorProducto
+SELECT id_producto, SUM(total) total_ventas
+FROM Ventas
+WHERE fecha BETWEEN '2023-01-01' AND '2023-12-31'
+GROUP BY id_producto
+
+SELECT * FROM ##TotalVentasPorProducto
+
+
+CREATE TABLE ##ReporteVentasPorCliente (
+    id_cliente INT,
+    nombre NVARCHAR(255),
+    apellido_paterno NVARCHAR(255),
+    total_ventas DECIMAL(10, 2)
+)
+
+INSERT INTO ##ReporteVentasPorCliente
+SELECT c.id_cliente, c.nombre, c.apellido_paterno, SUM(v.total) AS total_ventas
+FROM Clientes c
+JOIN Ventas v ON c.id_cliente = v.id_cliente
+WHERE v.fecha BETWEEN '2023-01-01' AND '2023-12-31'
+GROUP BY c.id_cliente, c.nombre, c.apellido_paterno
+
+SELECT * FROM ##ReporteVentasPorCliente
+
