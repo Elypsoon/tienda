@@ -23,7 +23,7 @@ LOG ON
 			NAME = 'Proyecto_log2',
 			FILENAME = 'D:\Bases de datos\ProyectoBD\Proyecto_log2.ldf',
 			SIZE = 2MB,
-			FILEGROWTH = 10%,
+			FILEGROWTH = 10%
 			)
 GO
 USE Proyecto

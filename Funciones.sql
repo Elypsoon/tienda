@@ -1,5 +1,5 @@
 USE Proyecto
-  
+GO
 --1. Venta por fecha
 
 CREATE FUNCTION ObtenerTotalVentasPorFecha
@@ -11,6 +11,7 @@ AS
 BEGIN
     RETURN (SELECT SUM(total) FROM Ventas WHERE fecha = @fecha)
 END
+GO
 
 --2. Venta por mes
 
@@ -35,7 +36,7 @@ RETURN
         YEAR(fecha) = @Anio AND
         MONTH(fecha) = @Mes
 )
-
+GO
 
 --3. Compras a proveedor.
 
@@ -52,6 +53,7 @@ BEGIN
         WHERE id_proveedor = @id_provedor
     )
 END
+GO
 
 --4. Verificar stock
 
@@ -65,3 +67,4 @@ BEGIN
 		WHERE id_producto = @id_producto
 	)
 END
+GO

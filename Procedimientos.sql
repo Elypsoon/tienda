@@ -1,5 +1,5 @@
 USE Proyecto
-
+GO
 --1. Buscar cliente
 
 CREATE PROCEDURE BuscarCliente
@@ -32,7 +32,7 @@ BEGIN
         D.ciudad LIKE '%' + @parametro_busqueda + '%' OR
         Co.correo LIKE '%' + @parametro_busqueda + '%';
 END
-
+GO
 --2. Registrar venta por unidad
 
 CREATE PROCEDURE VentaRegistro
@@ -54,7 +54,7 @@ BEGIN
    SET stock = stock - @cantidad
    WHERE id_producto = @id_producto
 END
-
+GO
 --3. Actualizar correo del cliente.
 
 CREATE PROCEDURE ActualizarCorreoCliente
@@ -70,7 +70,7 @@ BEGIN
         WHERE id_cliente = @id_cliente
     )
 END
-
+GO
 --4. Registrar venta por varias cantidades usando una función
 
 CREATE PROCEDURE Registrar_Venta
@@ -105,3 +105,32 @@ BEGIN
      PRINT 'No hay suficiente stock para el producto.'
  END
 END
+GO
+--5. Búsqueda dinámica.
+CREATE PROCEDURE BusquedaAvanzada
+    @Tabla NVARCHAR(50),
+    @Col1 NVARCHAR(50),
+    @Op1 NVARCHAR(2),
+    @Val1 NVARCHAR(50),
+    @Col2 NVARCHAR(50) = NULL,
+    @Op2 NVARCHAR(2) = NULL,
+    @Val2 NVARCHAR(50) = NULL
+AS
+BEGIN
+    DECLARE @Query NVARCHAR(MAX)
+    DECLARE @Param NVARCHAR(MAX)
+
+    -- Construir la consulta dinámica con múltiples condiciones
+    SET @Query = N'SELECT * FROM ' + @Tabla + ' WHERE ' + @Col1 + ' ' + @Op1 + ' @Val1'
+
+    IF @Col2 IS NOT NULL AND @Op2 IS NOT NULL AND @Val2 IS NOT NULL
+    BEGIN
+        SET @Query = @Query + N' AND ' + @Col2 + ' ' + @Op2 + ' @Val2'
+    END
+
+    SET @Param = N'@Val1 NVARCHAR(50), @Val2 NVARCHAR(50)'
+
+    -- Ejecutar la consulta dinámica
+    EXEC sp_executesql @Query, @Param, @Val1 = @Val1, @Val2 = @Val2
+END
+GO

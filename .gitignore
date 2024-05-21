@@ -1,0 +1,10 @@
+*.bak
+*.pdf
+*.mdf
+*.ndf
+*.ldf
+
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/

@@ -1,5 +1,5 @@
 USE Proyecto
-
+GO
 --1. Clientes y los datos de contacto.
 
 CREATE VIEW Contacto_clientes AS
@@ -7,7 +7,7 @@ CREATE VIEW Contacto_clientes AS
 	FROM Clientes A JOIN Correos B 
 	ON A.id_correo = B.id_correo
 	JOIN Direcciones C ON C.id_direccion = A.id_direccion
-
+GO
 --2. Relación de compras a proveedores en general
 
 CREATE VIEW Compras_proveedores AS
@@ -15,7 +15,7 @@ CREATE VIEW Compras_proveedores AS
 	FROM Proveedores A JOIN Compras B
 	ON A.id_proveedor = B.id_proveedor
 	GROUP BY A.nombre, A.apellido_paterno, A.apellido_materno
-
+GO
 --3. Compras y ventas por fecha.
 
 CREATE VIEW Compras_ventas AS
@@ -23,7 +23,7 @@ CREATE VIEW Compras_ventas AS
 	FROM Ventas A JOIN Compras B 
 	ON A.fecha = B.fecha
 	GROUP BY A.fecha
-
+GO
 --4. Relacion clientes y sus compras.
 
 CREATE VIEW Ventas_clientes AS
@@ -31,3 +31,4 @@ CREATE VIEW Ventas_clientes AS
 	FROM Clientes A JOIN Ventas B 
 	ON A.id_cliente = B.id_cliente 
 	JOIN Productos C ON B.id_producto = C.id_producto
+GO
